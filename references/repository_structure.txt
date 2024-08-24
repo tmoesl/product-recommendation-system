@@ -1,0 +1,18 @@
+├── LICENSE            <- Project's open-source license details.
+├── README.md          <- Top-level README for developers.
+│
+├── requirements.txt   <- Python dependencies for replicating the environment.
+├── environment.yml    <- Conda environment configuration with dependencies.
+│
+├── data
+│   ├── processed      <- The final, processed data sets for modeling.
+│   └── raw            <- The original, immutable data.
+│
+├── notebooks          <- Jupyter notebooks for data exploration and analysis.
+│
+├── references         <- Documentation, data dictionaries, and manuals.
+│
+├── reports            <- Generated analysis as HTML, PDF, LaTeX, etc.
+│   └── figures        <- Graphics and figures for reports.
+│
+├── src                <- Source code for the project.
