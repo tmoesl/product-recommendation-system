@@ -413,12 +413,11 @@ def select_interactions(
 
     # Iterate over the selected users in the trainset
     for inner_uid in random_inner_uids:
-        raw_user_id = trainset.to_raw_uid(
-            inner_uid
-        )  # Convert inner user ID to raw user ID
-        user_ratings = trainset.ur[
-            inner_uid
-        ]  # Get the list of (item_inner_id, rating) tuples for this user
+        # Convert inner user ID to raw user ID
+        raw_user_id = trainset.to_raw_uid(inner_uid)
+
+        # Get the list of (item_inner_id, rating) tuples for this user
+        user_ratings = trainset.ur[inner_uid]
 
         # Convert item_inner_id to raw item IDs and store the interactions
         user_interacted_products[raw_user_id] = [
