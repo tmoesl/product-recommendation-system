@@ -294,7 +294,7 @@ def get_recommendations(
 
 
 # Function to perform cross validation on a dataset for specified algorithm and metrics
-def cross_val(algo, data, measures=["RMSE", "MAE"], cv: int = 6) -> dict:
+def cross_val(algo, data, measures=["RMSE", "MAE"], cv: int = 5) -> dict:
     """
     Perform cross-validation on the provided dataset using a specified algorithm and evaluation metrics.
 
@@ -302,7 +302,7 @@ def cross_val(algo, data, measures=["RMSE", "MAE"], cv: int = 6) -> dict:
     - algo: The algorithm instance from the Surprise library to use for model training and evaluation.
     - data (Dataset): A Surprise library dataset containing user-item interactions.
     - measures (list, optional): List of performance measures to evaluate during cross-validation (default is ["RMSE", "MAE"]).
-    - cv (int, optional): Number of cross-validation folds (default is 6).
+    - cv (int, optional): Number of cross-validation folds (default is 5).
 
     Returns:
     - dict: A dictionary containing cross-validation results for each evaluation measure.
