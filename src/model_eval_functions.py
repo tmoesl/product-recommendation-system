@@ -444,6 +444,13 @@ def select_interactions(
                 non_interacted_products, num_products
             )
 
+    # Display the user interactions and non-interactions
+    display(Markdown(f"**User Interactions**"))
+    display(user_interactions)
+
+    display(Markdown(f"**User Non-Interactions**"))
+    display(user_non_interactions)
+
     return user_interactions, user_non_interactions
 
 
