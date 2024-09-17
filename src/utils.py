@@ -7,16 +7,18 @@ dictionaries, and presenting them in a user-friendly format.
 The module is structured as follows:
 
 1. IMPORT LIBRARIES:
-   - Utilities for file handling and regular expression operations (os, re)
-   - Data manipulation library (Pandas)
-   - Data visualization in Jupyter notebooks (IPython.display)
+    - Utilities for file handling and regular expression operations (os, re)
+    - Data manipulation library (Pandas)
+    - Data visualization in Jupyter notebooks (IPython.display)
 
 2. FUNCTIONS:
-   - read_all_csv_files: Reads all CSV files in a specified folder, sorts them in natural order, 
+    - read_all_csv_files: Reads all CSV files in a specified folder, sorts them in natural order, 
      and concatenates them into a single DataFrame.
-   - create_metrics_df: Creates a formatted DataFrame from a dictionary of metrics, ensuring consistency 
+    - display_eval_metrics: Displays model evaluation metrics in DataFrame format, providing a concise summary 
+     of predictive and ranking metrics for both training and test sets.
+    - create_metrics_df: Creates a formatted DataFrame from a dictionary of metrics, ensuring consistency 
      and readability of evaluation results for different algorithms.
-   - prepare_and_display_metrics: Prepares and displays model evaluation metrics in a formatted DataFrame, 
+    - prepare_and_display_metrics: Prepares and displays model evaluation metrics in a formatted DataFrame, 
      providing a concise summary of model performance metrics with a custom title.
 """
 
@@ -87,6 +89,32 @@ def read_all_csv_files(
     print(f"\nData import successful. Total files read: {len(csv_files)}")
 
     return combined_df
+
+
+# Function to display evaluation metrics for the recommender class evaluate instance
+def display_eval_metrics(
+    train_pred_met, train_rank_met, test_pred_met, test_rank_met
+) -> None:
+    """
+    Display the evaluation metrics in DataFrame format.
+
+    Parameters:
+    - train_pred_met: Predictive metrics for the training set.
+    - train_rank_met: Ranking metrics for the training set.
+    - test_pred_met: Predictive metrics for the test set.
+    - test_rank_met: Ranking metrics for the test set.
+    """
+    pred_metrics_df = pd.DataFrame(
+        {"Trainset": train_pred_met, "Testset": test_pred_met}
+    )
+    rank_metrics_df = pd.DataFrame(
+        {"Trainset": train_rank_met, "Testset": test_rank_met}
+    )
+
+    display(Markdown(f"**Predictive Quality Metrics**"))
+    display(pred_metrics_df)
+    display(Markdown(f"**Ranking Quality Metrics**"))
+    display(rank_metrics_df)
 
 
 # Function to prepare and display metrics
