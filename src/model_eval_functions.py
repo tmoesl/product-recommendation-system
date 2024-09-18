@@ -29,18 +29,18 @@ The module is structured as follows:
 
 
 # Import libraries for data manipulation and analysis
+import random
+from collections import defaultdict
+
 import numpy as np
 import pandas as pd
-from collections import defaultdict
-import random
 
 # Import libraries for data visualization
-from IPython.display import display, Markdown
+from IPython.display import Markdown, display
 
 # Import libraries for model evaluation
 from surprise import accuracy
 from surprise.model_selection import GridSearchCV, cross_validate
-
 
 # ---------------------------------------------------------
 # 2. FUNCTIONS
@@ -242,16 +242,16 @@ def evaluate_model(predictions: list, k: int = 10, threshold: float = 3.5) -> tu
 
 # Function to obtain the top N products for a given user based on the specified recommendation model
 def get_recommendations(
-    data: pd.DataFrame, algo, user_id: str, top_n: int = 5
+    data: pd.DataFrame, algo, user_id: str, top_n: int = None
 ) -> pd.DataFrame:
     """
     This function recommends top_n products for a given user based on the specified algorithm.
 
     Parameters:
     - data (pd.DataFrame): The input DataFrame containing user-product interactions, with columns 'user_id', 'prod_id', and 'rating'.
-    - user_id (str): The unique identifier of the user for whom the recommendations are to be generated.
-    - top_n (int, optional): The number of top recommendations to generate for the given user (default is 5).
     - algo: The trained recommendation algorithm from the Surprise library to use for predicting ratings.
+    - user_id (str): The unique identifier of the user for whom the recommendations are to be generated.
+    - top_n (int, optional): The number of top recommendations to generate for the given user (default is None).
 
     Returns:
     - pd.DataFrame: A DataFrame containing the top N recommended products for the given 'user_id', including estimated ratings and additional details.
@@ -274,14 +274,19 @@ def get_recommendations(
     for item_id in non_interacted_products:
 
         # Predict the ratings for those non interacted product ids by this user
-        est = algo.predict(user_id, item_id).est
-        details = algo.predict(user_id, item_id).details
+        prediction = algo.predict(user_id, item_id)
+        est = prediction.est
+        details = prediction.details
 
         # Append the predicted ratings
         recommendations.append((item_id, est, details))
 
-    # Rank products by descending predicted ratings.
+    # Rank products by descending predicted ratings
     recommendations.sort(key=lambda x: x[1], reverse=True)
+
+    # Set default for top_n to the number of unique products if not specified
+    if top_n is None:
+        top_n = len(non_interacted_products)
 
     # Convert recommendations to DataFrame and round predicted ratings
     recommendations_df = pd.DataFrame(
