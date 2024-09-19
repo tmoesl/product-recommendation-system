@@ -13,7 +13,6 @@ The module is structured as follows:
    - Model evaluation and recommendation libraries (Surprise)
 
 2. FUNCTIONS:
-   - top_n_products: Retrieves top N products based on Bayesian average rating.
    - calculate_predictive_metrics: Calculates predictive quality metrics like Precision@K, Recall@K, and F1 Score@K.
    - calculate_ranking_metrics: Computes ranking quality metrics such as MRR, MAP, and Hit Rate@K.
    - evaluate_model: Evaluates a recommendation model using both predictive and ranking metrics.
@@ -45,32 +44,6 @@ from surprise.model_selection import GridSearchCV, cross_validate
 # ---------------------------------------------------------
 # 2. FUNCTIONS
 # ---------------------------------------------------------
-
-
-# Function to get the top n products based on the highest Bayesion average rating, filtered by a minimum interactions
-def top_n_products(data: pd.DataFrame, n: int = 10, threshold: int = 0) -> pd.DataFrame:
-    """
-    Get the top n products based on the highest Bayesian average rating, filtered by a minimum number of interactions.
-
-    Parameters:
-    - data (pd.DataFrame): The input DataFrame containing product information.
-    - n (int): The number of top products to return.
-    - threshold (int, optional): Minimum number of interactions required for a product to be considered. Default is 0.
-
-    Returns:
-    - pd.DataFrame: A DataFrame containing the top n products sorted by their Bayesian average ratings.
-    """
-
-    # Filter products that meet the minimum interaction threshold to ensure sufficient data reliability.
-    recommendations = data[data["cnt_rating"] > threshold]
-
-    # Sort products by Bayesian average rating to prioritize items with a balance of high ratings and adequate interaction count.
-    recommendations = recommendations.sort_values(
-        by=["bayesian_avg"], ascending=[False]
-    )
-
-    # Extract the top n products after applying the rating and interaction filters.
-    return recommendations["bayesian_avg"].nlargest(n).round(2).reset_index()
 
 
 #  Function to calculate predictive quality metrics for a recommendation model
