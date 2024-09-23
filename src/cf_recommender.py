@@ -248,13 +248,13 @@ class CFRecommendationSystem:
         """
         Perform cross-validation on the provided dataset using a specified algorithm and evaluation metrics.
 
-        Parameters:
-        - data (Dataset): A Surprise library dataset containing user-item interactions.
-        - measures (list, optional): List of performance measures to evaluate during cross-validation. Defaults to ["rmse", "mae"].
-        - cv (int, optional): Number of cross-validation folds. Defaults to 5.
+        Args:
+            data (Dataset): A Surprise library dataset containing user-item interactions.
+            measures (list, optional): List of performance measures to evaluate during cross-validation. Defaults to ["rmse", "mae"].
+            cv (int, optional): Number of cross-validation folds. Defaults to 5.
 
         Returns:
-        - dict: A dictionary containing cross-validation results for each evaluation measure.
+            dict: A dictionary containing cross-validation results for each evaluation measure.
         """
 
         if self.model is None:
