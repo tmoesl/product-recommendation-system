@@ -1,14 +1,14 @@
 """
 This module contains custom functions for model evaluation, recommendation, and analysis 
 in recommendation systems. The functions support various tasks such as calculating ranking and quality metrics, 
-performing cross-validation, running grid search, and generating personalized product recommendations. 
+running grid searches, and generating personalized product recommendations. 
 These functions are designed to enhance data science workflows by integrating with standard libraries 
 such as NumPy, Pandas, and the Surprise library for recommendation algorithms.
 
 The module is structured as follows:
 
 1. IMPORT LIBRARIES:
-   - Data manipulation and analysis libraries (NumPy, Pandas, collections, random)
+   - Data manipulation and analysis libraries (NumPy, Pandas, collections)
    - Data visualization libraries in Jupyter notebooks (IPython.display)
    - Model evaluation and recommendation libraries (Surprise)
 
@@ -17,9 +17,7 @@ The module is structured as follows:
    - calculate_ranking_metrics: Computes ranking quality metrics such as MRR, MAP, and Hit Rate@K.
    - evaluate_model: Evaluates a recommendation model using both predictive and ranking metrics.
    - get_recommendations: Generates top N product recommendations for a user based on a trained model.
-   - cross_val: Performs cross-validation on the provided dataset using a specified algorithm.
    - baseline_gs: Runs GridSearchCV for multiple algorithms with specified parameter grids.
-   - select_interactions: Randomly selects a subset of users and their interactions and non-interactions from the training set.
 """
 
 # ---------------------------------------------------------
@@ -28,7 +26,6 @@ The module is structured as follows:
 
 
 # Import libraries for data manipulation and analysis
-import random
 from collections import defaultdict
 
 import numpy as np
@@ -39,7 +36,7 @@ from IPython.display import Markdown, display
 
 # Import libraries for model evaluation
 from surprise import accuracy
-from surprise.model_selection import GridSearchCV, cross_validate
+from surprise.model_selection import GridSearchCV
 
 # ---------------------------------------------------------
 # 2. FUNCTIONS
@@ -271,28 +268,6 @@ def get_recommendations(
     return recommendations_df
 
 
-# Function to perform cross validation on a dataset for specified algorithm and metrics
-def cross_val(algo, data, measures=["RMSE", "MAE"], cv: int = 5) -> dict:
-    """
-    Perform cross-validation on the provided dataset using a specified algorithm and evaluation metrics.
-
-    Parameters:
-    - algo: The algorithm instance from the Surprise library to use for model training and evaluation.
-    - data (Dataset): A Surprise library dataset containing user-item interactions.
-    - measures (list, optional): List of performance measures to evaluate during cross-validation (default is ["RMSE", "MAE"]).
-    - cv (int, optional): Number of cross-validation folds (default is 5).
-
-    Returns:
-    - dict: A dictionary containing cross-validation results for each evaluation measure.
-    """
-
-    # Execute cross-validation with results printed via verbose=True
-    cval = cross_validate(
-        algo=algo.model, data=data, measures=measures, cv=cv, n_jobs=-1, verbose=True
-    )
-    return cval
-
-
 # Function to run baseline gridsearch for multiple algorithms with specified parameter grids
 def baseline_gs(
     data: pd.DataFrame,
@@ -353,83 +328,6 @@ def baseline_gs(
     display(Markdown(f"**{formatted_message}**"))
 
     return best_model_name, best_model_params
-
-
-# Function to select random interactions and non-interactions for a subset of users
-def select_interactions(
-    trainset, num_users: int = 2, num_products: int = 2, seed: int = 42
-) -> tuple:
-    """
-    Randomly select a subset of users and their interactions from the training set,
-    along with a set of non-interacted products for comparison.
-
-    Parameters:
-    - trainset: The training set containing user-item interactions, provided by the Surprise library.
-    - num_users (int, optional): Number of users to randomly select (default is 2).
-    - num_products (int, optional): Number of products to select per user (default is 2).
-    - seed (int, optional): Seed for random number generation to ensure reproducibility (default is 42).
-
-    Returns:
-    - tuple: A tuple containing dictionaries of random interactions and non-interactions for a subset of user IDs.
-        - user_interactions (dict): A dictionary with user IDs as keys and a list of randomly selected (product, rating) tuples as values.
-        - user_non_interactions (dict): A dictionary with user IDs as keys and a list of randomly selected non-interacted products as values.
-    """
-
-    # Set the random seed for reproducibility
-    random.seed(seed)
-
-    # Randomly select a few users from the trainset
-    random_inner_uids = random.sample(trainset.all_users(), num_users)
-
-    # Initialize dictionaries to store user interactions and all interacted products
-    user_interactions = {}
-    user_interacted_products = {}
-    user_non_interactions = {}  # If you plan to use this later
-
-    # Get the set of all product IDs in the trainset
-    all_products = set(trainset.to_raw_iid(item) for item in trainset.all_items())
-
-    # Iterate over the selected users in the trainset
-    for inner_uid in random_inner_uids:
-        # Convert inner user ID to raw user ID
-        raw_user_id = trainset.to_raw_uid(inner_uid)
-
-        # Get the list of (item_inner_id, rating) tuples for this user
-        user_ratings = trainset.ur[inner_uid]
-
-        # Convert item_inner_id to raw item IDs and store the interactions
-        user_interacted_products[raw_user_id] = [
-            (trainset.to_raw_iid(item_inner_id), rating)
-            for item_inner_id, rating in user_ratings
-        ]
-
-        # Randomly select a few interacted products
-        user_interactions[raw_user_id] = random.sample(
-            user_interacted_products[raw_user_id], num_products
-        )
-
-        # Get the set of interacted product IDs for the current user
-        interacted_products = set(
-            item_id for item_id, _ in user_interacted_products[raw_user_id]
-        )
-
-        # Identify non-interacted products by subtracting interacted ones from all products
-        non_interacted_products = list(all_products - interacted_products)
-
-        # Randomly select non-interacted products
-        if len(non_interacted_products) >= num_products:
-            user_non_interactions[raw_user_id] = random.sample(
-                non_interacted_products, num_products
-            )
-
-    # Display the user interactions and non-interactions
-    display(Markdown(f"**User Interactions**"))
-    display(user_interactions)
-
-    display(Markdown(f"**User Non-Interactions**"))
-    display(user_non_interactions)
-
-    return user_interactions, user_non_interactions
 
 
 # ---------------------------------------------------------
