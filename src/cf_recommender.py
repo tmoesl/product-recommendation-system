@@ -4,7 +4,7 @@ cf_recommender.py
 Collaborative Filtering Recommendation System Module
 
 This module provides a class `CFRecommendationSystem` for managing various recommendation system algorithms, 
-including kNN-based and SVD-based methods. It supports training, evaluation, hyperparameter tuning, and 
+including kNN-based and SVD-based methods. It supports training, evaluation, cross-validation, hyperparameter tuning, and 
 generating personalized recommendations.
 
 Classes:
@@ -17,6 +17,7 @@ CFRecommendationSystem Methods:
     fit_knn: Train the kNN-based recommendation model.
     fit_svd: Train the SVD-based recommendation model.
     evaluate: Evaluate the model on training and test sets, and display performance metrics.
+    cross_val: Perform cross-validation on the provided dataset using a specified algorithm and evaluation metrics.
     predict: Generate and display rating predictions for user-item interactions.
     tune_hyperparameters: Perform hyperparameter tuning using GridSearchCV for the specified algorithm.
     recommend: Generate and display top N product recommendations for each user.
@@ -36,7 +37,7 @@ from IPython.display import Markdown, display
 from surprise.dataset import Dataset
 
 # Import GridSearchCV from the model_selection module
-from surprise.model_selection import GridSearchCV
+from surprise.model_selection import GridSearchCV, cross_validate
 
 # Import KNN-based and matrix factorization-based algorithms from the submodule
 from surprise.prediction_algorithms import (
@@ -239,6 +240,40 @@ class CFRecommendationSystem:
         )
 
         return {**train_rank_met, **train_pred_met}, {**test_rank_met, **test_pred_met}
+
+    # Function to perform cross validation on a dataset for specified algorithm and metrics
+    def cross_val(
+        self, data: Dataset, measures: Optional[List[str]] = None, cv: int = 5
+    ) -> Dict[str, List[float]]:
+        """
+        Perform cross-validation on the provided dataset using a specified algorithm and evaluation metrics.
+
+        Parameters:
+        - data (Dataset): A Surprise library dataset containing user-item interactions.
+        - measures (list, optional): List of performance measures to evaluate during cross-validation. Defaults to ["rmse", "mae"].
+        - cv (int, optional): Number of cross-validation folds. Defaults to 5.
+
+        Returns:
+        - dict: A dictionary containing cross-validation results for each evaluation measure.
+        """
+
+        if self.model is None:
+            raise ModelNotTrainedError(
+                "Model is not trained. Please call fit_knn or fit_svd first."
+            )
+
+        if measures is None:
+            measures = ["rmse", "mae"]  # Default measures
+
+        # Perform cross-validation
+        return cross_validate(
+            algo=self.model,
+            data=data,
+            measures=measures,
+            cv=cv,
+            n_jobs=-1,
+            verbose=True,
+        )
 
     # Function to generate and display rating predictions for user-item interactions
     def predict(
