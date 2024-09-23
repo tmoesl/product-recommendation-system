@@ -1,4 +1,6 @@
 """
+utils.py
+
 This module contains utility functions for reading and processing multiple CSV files into a single DataFrame, 
 as well as preparing and displaying model evaluation metrics in recommendation systems. The functions are designed 
 to assist in efficiently importing data for model training and evaluation, randomly selecting user-item interactions, creating formatted DataFrames from metric 
@@ -7,20 +9,16 @@ dictionaries, and presenting them in a user-friendly format.
 The module is structured as follows:
 
 1. IMPORT LIBRARIES:
-    - Utilities for file handling and regular expression operations (os, re)
-    - Data manipulation library (random, Pandas)
-    - Data visualization in Jupyter notebooks (IPython.display)
+   - Utilities for file handling and regular expression operations (os, re)
+   - Data manipulation library (random, Pandas)
+   - Data visualization in Jupyter notebooks (IPython.display)
 
 2. FUNCTIONS:
-    - read_all_csv_files: Reads all CSV files in a specified folder, sorts them in natural order, 
-     and concatenates them into a single DataFrame.
-    - select_interactions: Randomly selects a subset of users and their interactions and non-interactions from the training set.
-    - display_eval_metrics: Displays model evaluation metrics in DataFrame format, providing a concise summary 
-     of predictive and ranking metrics for both training and test sets.
-    - create_metrics_df: Creates a formatted DataFrame from a dictionary of metrics, ensuring consistency 
-     and readability of evaluation results for different algorithms.
-    - prepare_and_display_metrics: Prepares and displays model evaluation metrics in a formatted DataFrame, 
-     providing a concise summary of model performance metrics with a custom title.
+   - read_all_csv_files: Reads all CSV files in a specified folder, sorts them in natural order, and concatenates them into a single DataFrame.
+   - select_interactions: Randomly selects a subset of users and their interactions and non-interactions from the training set.
+   - display_eval_metrics: Displays model evaluation metrics in DataFrame format, providing a concise summary of predictive and ranking metrics for both training and test sets.
+   - create_metrics_df: Creates a formatted DataFrame from a dictionary of metrics, ensuring consistency and readability of evaluation results for different algorithms.
+   - prepare_and_display_metrics: Prepares and displays model evaluation metrics in a formatted DataFrame, providing a concise summary of model performance metrics with a custom title.
 """
 
 # ---------------------------------------------------------

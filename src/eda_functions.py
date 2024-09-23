@@ -1,4 +1,6 @@
 """
+eda_functions.py
+
 This module contains custom functions for data analysis and visualization,
 including statistical summaries and plotting tools. 
 These functions are designed for use in data science workflows and are 
