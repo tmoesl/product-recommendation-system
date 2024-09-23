@@ -3,7 +3,7 @@ hybrid_recommender.py
 
 Hybrid Recommendation System Module
 
-This module provides a class `HybridRecommendationSystem` that combine collaborative filtering (CF) scores with rank-based (Bayesian average) scores.
+This module provides a class `HybridRecommendationSystem` that combines collaborative filtering (CF) scores with rank-based scores (e.g. Bayesian average). 
 It supports generating personalized recommendations by blending CF and rank-based approaches, evaluating the performance of the hybrid model on training and test datasets, and providing top-N recommendations for each user.
 
 Classes:
@@ -12,13 +12,14 @@ Classes:
     HybridRecommendationSystem: Manages hybrid recommendation systems, combines CF and rank-based scores, evaluates model performance, and generates top-N recommendations.
 
 HybridRecommendationSystem Methods:
-    __init__: Initializes the HybridRecommendationSystem with a collaborative filtering model, rank-based model, and weights.
-    compute_hybrid_scores: Computes CF scores and combines them with Bayesian averages to generate hybrid scores.
-    evaluate: Evaluates the trained model on training and test sets, and displays performance metrics.
-    predict: Generates and displays rating predictions for user-item interactions.
-    recommend: Generates and displays top-N product recommendations for each user.
-    _calculate_hybrid_score: Calculates the hybrid score by combining CF score and Bayesian score.
-    _calculate_hybrid_predictions: Computes hybrid predictions by combining CF scores and Bayesian averages.
+    __init__: Initialize the HybridRecommendationSystem with a trained collaborative filtering model and rank-based model.
+    compute_hybrid_scores: Compute hybrid scores for user-item interactions by combining CF scores with rank scores.
+    evaluate: Evaluate the trained model on training and test sets, and display performance metrics.
+    predict: Generate and display rating predictions for user-item interactions.
+    recommend: Generate and display top-N product recommendations for each user.
+    _calculate_cf_scores: Helper function to calculate CF scores for a given user.
+    _calculate_hybrid_score: Helper function to calculate the hybrid score.
+    _calculate_hybrid_predictions: Helper function to calculate hybrid predictions.
 """
 
 # ---------------------------------------------------------
@@ -30,8 +31,9 @@ from typing import Dict, List, Tuple, Union
 
 import pandas as pd
 from IPython.display import Markdown, display
-from surprise import Dataset
+from surprise.dataset import Dataset
 from surprise.prediction_algorithms.predictions import Prediction
+from surprise.prediction_algorithms.algo_base import AlgoBase
 
 # Import modules and required functions from the src directory
 from src.model_eval_functions import evaluate_model, get_recommendations
@@ -62,7 +64,7 @@ class ModelNotAvailableError(Exception):
 # Class for managing hybrid recommendation systems
 class HybridRecommendationSystem:
     """
-    A hybrid recommendation system that combines collaborative filtering (CF) scores with rank-based (Bayesian average) scores.
+    A hybrid recommendation system that combines collaborative filtering (CF) scores with rank-based (e.g. Bayesian average) scores.
 
     This class supports generating personalized recommendations by blending CF and rank-based approaches,
     evaluating the performance of the hybrid model on training and test datasets, and providing top-N recommendations for each user.
@@ -123,7 +125,7 @@ class HybridRecommendationSystem:
         self, data: pd.DataFrame, int_data: Dict[str, List[Tuple[str, float]]]
     ) -> Dict[str, Dict[str, float]]:
         """
-        Compute CF scores and combine them with Bayesian averages to generate hybrid scores.
+        Compute hybrid scores for user-item interactions by combining CF scores with rank scores.
 
         Args:
             data (pd.DataFrame): The input DataFrame containing user-product interactions.
@@ -136,22 +138,14 @@ class HybridRecommendationSystem:
         cf_scores = {}
         hybrid_scores = {}
 
-        # Calculate CF scores and hybrid scores for each user
+        # Calculate hybrid scores
         for user in int_data.keys():
-            # Get CF-based recommendations for the current user
-            cf_recommendations = get_recommendations(
+            # Get CF scores
+            cf_scores[user] = self._calculate_cf_scores(
                 data=data, algo=self.model_cf, user_id=user
             )
 
-            # Create a dictionary of CF scores for the user
-            cf_scores[user] = dict(
-                zip(
-                    cf_recommendations["prod_id"],
-                    cf_recommendations["estimated_ratings"],
-                )
-            )
-
-            # Initialize hybrid scores for the current user
+            # Initialize hybrid scores for current user
             hybrid_scores[user] = {}
 
             # Calculate the hybrid score for each item
@@ -283,27 +277,55 @@ class HybridRecommendationSystem:
             display(Markdown(f"**Recommendations for User: {user}**"))
             display(recommendations_df)
 
-    # Helper function to evaluate the hybrid score
+    # Helper function to calculate CF scores for a given user
+    def _calculate_cf_scores(
+        self, data: pd.DataFrame, algo: AlgoBase, user_id: str
+    ) -> Dict[str, float]:
+        """
+        Calculate CF scores for a given user.
+
+        Args:
+            data (pd.DataFrame): The input DataFrame containing user-product interactions.
+            algo (AlgoBase): The collaborative filtering algorithm.
+            user_id (str): The ID of the user.
+
+        Returns:
+            Dict[str, float]: A dictionary of CF scores for the user.
+        """
+        # Get CF-based recommendations for the current user
+        cf_recommendations = get_recommendations(data=data, algo=algo, user_id=user_id)
+
+        # Create a dictionary of CF scores for the user
+        cf_scores = dict(
+            zip(
+                cf_recommendations["prod_id"],
+                cf_recommendations["estimated_ratings"],
+            )
+        )
+
+        return cf_scores
+
+    # Helper function to calculate the hybrid score
     def _calculate_hybrid_score(self, cf_score: float, item_id: str) -> float:
         """
-        Calculate the hybrid score by combining CF score and Bayesian score.
+        Calculate the hybrid score by combining CF score and rank score.
 
         Args:
             cf_score (float): Collaborative Filtering score.
-            item_id (str): Item ID to fetch the Bayesian score.
+            item_id (str): Item ID to fetch the rank score.
 
         Returns:
             float: Combined hybrid score.
         """
-        bayesian_score = self.model_rank_dict.get(item_id, self.global_rating)
-        return self.weight_cf * cf_score + self.weight_rank * bayesian_score
+        rank_score = self.model_rank_dict.get(item_id, self.global_rating)
+        return self.weight_cf * cf_score + self.weight_rank * rank_score
 
     # Helper function to calculate hybrid predictions
     def _calculate_hybrid_predictions(
         self, predictions: List[Prediction]
     ) -> List[Prediction]:
         """
-        Compute hybrid predictions by combining CF scores and Bayesian averages.
+        Calculate hybrid predictions by combining CF scores and rank scores.
 
         Args:
             predictions (List[Prediction]): List of CF predictions.
