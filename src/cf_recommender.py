@@ -85,7 +85,6 @@ class CFRecommendationSystem:
         "algo_name",
         "algo_class",
         "params_grid",
-        "random_state",
         "model",
         "best_score",
         "best_params",
@@ -98,7 +97,6 @@ class CFRecommendationSystem:
         data: pd.DataFrame,
         algo_class: Type[AlgoBase],
         params_grid: Optional[Dict[str, Any]] = None,
-        random_state: int = 42,
     ):
         """
         Initialize the CFRecommendationSystem.
@@ -107,14 +105,12 @@ class CFRecommendationSystem:
             data (pd.DataFrame): Input data.
             algo_class (Type[AlgoBase]): Algorithm class to use.
             params_grid (Dict[str, Any], optional): Parameter grid for tuning. Defaults to None.
-            random_state (int, optional): Random state for reproducibility. Defaults to 42.
         """
 
         self.data = data
         self.algo_name = algo_class.__name__
         self.algo_class = algo_class
         self.params_grid = params_grid or {}
-        self.random_state = random_state
         self.model: Optional[AlgoBase] = None
         self.best_score: Optional[float] = None
         self.best_params: Optional[Dict[str, Any]] = None
@@ -144,7 +140,6 @@ class CFRecommendationSystem:
                 "k": self.best_params.get("k", 40),
                 "min_k": self.best_params.get("min_k", 1),
                 "sim_options": self.best_params.get("sim_options", {}),
-                "random_state": self.random_state,
                 "verbose": False,
             }
         else:
@@ -152,7 +147,6 @@ class CFRecommendationSystem:
                 "k": self.params_grid.get("k", 40),
                 "min_k": self.params_grid.get("min_k", 1),
                 "sim_options": self.params_grid.get("sim_options", {}),
-                "random_state": self.random_state,
                 "verbose": False,
             }
 
@@ -183,7 +177,7 @@ class CFRecommendationSystem:
                 "n_epochs": self.best_params.get("n_epochs", 20),
                 "lr_all": self.best_params.get("lr_all", 0.005),
                 "reg_all": self.best_params.get("reg_all", 0.02),
-                "random_state": self.random_state,
+                "random_state": self.best_params.get("random_state", 42),
             }
         else:
             model_params = {
@@ -191,7 +185,7 @@ class CFRecommendationSystem:
                 "n_epochs": self.params_grid.get("n_epochs", 20),
                 "lr_all": self.params_grid.get("lr_all", 0.005),
                 "reg_all": self.params_grid.get("reg_all", 0.02),
-                "random_state": self.random_state,
+                "random_state": self.params_grid.get("random_state", 42),
             }
 
         self.model = self.algo_class(**model_params)
@@ -244,7 +238,7 @@ class CFRecommendationSystem:
     # Function to perform cross validation on a dataset for specified algorithm and metrics
     def cross_val(
         self, data: Dataset, measures: Optional[List[str]] = None, cv: int = 5
-    ) -> Dict[str, List[float]]:
+    ) -> None:
         """
         Perform cross-validation on the provided dataset using a specified algorithm and evaluation metrics.
 
@@ -252,9 +246,6 @@ class CFRecommendationSystem:
             data (Dataset): A Surprise library dataset containing user-item interactions.
             measures (list, optional): List of performance measures to evaluate during cross-validation. Defaults to ["rmse", "mae"].
             cv (int, optional): Number of cross-validation folds. Defaults to 5.
-
-        Returns:
-            dict: A dictionary containing cross-validation results for each evaluation measure.
         """
 
         if self.model is None:
@@ -266,7 +257,7 @@ class CFRecommendationSystem:
             measures = ["rmse", "mae"]  # Default measures
 
         # Perform cross-validation
-        return cross_validate(
+        cross_validate(
             algo=self.model,
             data=data,
             measures=measures,
