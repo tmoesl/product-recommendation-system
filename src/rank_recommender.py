@@ -195,7 +195,7 @@ class RankRecommendationSystem:
         top_items.columns = ["prod_id", "estimated_ratings"]
 
         # Display the recommendations
-        display(Markdown("**Recommendations for All Users:**"))
+        display(Markdown("**Recommendations for All Users**"))
         display(top_items)
 
     # Helper function to compute predictions
