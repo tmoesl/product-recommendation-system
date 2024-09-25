@@ -9,21 +9,21 @@ integrated with standard libraries such as NumPy, Pandas, Math, Matplotlib, and 
 The module is structured as follows:
 
 1. IMPORT LIBRARIES:
-   - Data manipulation libraries (NumPy, Pandas, Math)
-   - Data visualization libraries (Matplotlib, Seaborn)
+    - Data manipulation libraries (NumPy, Pandas, Math)
+    - Data visualization libraries (Matplotlib, Seaborn)
 
 2. SET STANDARDIZED VARIABLES:
-   - Standard color palette for plotting (Seaborn Set2)
-   - Standard rating order and custom color palette for bar plots
+    - Standard color palette for plotting (Seaborn Set2)
+    - Standard rating order and custom color palette for bar plots
 
 3. FUNCTIONS:
-   - feature_stats: Calculates counts and percentage distribution of unique values.
-   - annotate_bars: Adds annotations to bar plots with counts or percentages.
-   - barplot: Plots a bar chart for a categorical variable with optional annotations.
-   - plot_interaction_histplot: Plots histogram for distribution of user-item interactions.
-   - plot_interaction_boxplot: Plots boxplot for distribution of user-item interactions.
-   - nlargest_entries: Retrieves and displays top N entries with highest counts.
-   - barplot_subplots: Creates subplots of bar plots for specified features.
+    - feature_stats: Calculates counts and percentage distribution of unique values.
+    - annotate_bars: Adds annotations to bar plots with counts or percentages.
+    - barplot: Plots a bar chart for a categorical variable with optional annotations.
+    - plot_interaction_histplot: Plots histogram for distribution of user-item interactions.
+    - plot_interaction_boxplot: Plots boxplot for distribution of user-item interactions.
+    - nlargest_entries: Retrieves and displays top N entries with highest counts.
+    - barplot_subplots: Creates subplots of bar plots for specified features.
 """
 
 # ---------------------------------------------------------
