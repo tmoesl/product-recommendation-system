@@ -328,7 +328,12 @@ class CFRecommendationSystem:
         self.best_score = self.gs.best_score[measures[0]]
         self.best_params = self.gs.best_params[measures[0]]
 
-        # Best RMSE score
+        # Hyperparameter tuning grid
+        display(Markdown("<br>**Hyperparameter Tuning Grid**"))
+        display(param_grid)
+
+        # Hyperparameter tuning results
+        display(Markdown("<br>**Hyperparameter Tuning Results**"))
         print(f"{measures[0].upper()}: {self.best_score:.3f}")
         print(f"Parameters: {self.best_params}")
 
