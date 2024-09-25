@@ -10,16 +10,17 @@ such as NumPy, Pandas, and the Surprise library for recommendation algorithms.
 The module is structured as follows:
 
 1. IMPORT LIBRARIES:
-   - Data manipulation and analysis libraries (NumPy, Pandas, collections)
-   - Data visualization libraries in Jupyter notebooks (IPython.display)
-   - Model evaluation and recommendation libraries (Surprise)
+    - Data manipulation and analysis libraries (NumPy, Pandas, collections)
+    - Data visualization libraries in Jupyter notebooks (IPython.display)
+    - Model evaluation and recommendation libraries (Surprise)
 
 2. FUNCTIONS:
-   - calculate_predictive_metrics: Calculates predictive quality metrics like Precision@K, Recall@K, and F1 Score@K.
-   - calculate_ranking_metrics: Computes ranking quality metrics such as MRR, MAP, and Hit Rate@K.
-   - evaluate_model: Evaluates a recommendation model using both predictive and ranking metrics.
-   - get_recommendations: Generates top N product recommendations for a user based on a trained model.
-   - baseline_gs: Runs GridSearchCV for multiple algorithms with specified parameter grids.
+    - calculate_predictive_metrics: Calculates predictive quality metrics like Precision@K, Recall@K, and F1 Score@K.
+    - calculate_ranking_metrics: Computes ranking quality metrics such as MRR, MAP, and Hit Rate@K.
+    - evaluate_model: Evaluates a recommendation model using both predictive and ranking metrics.
+    - get_recommendations: Generates top N product recommendations for a user based on a trained model.
+    - baseline_gridsearch: Runs GridSearchCV for multiple algorithms with specified parameter grids.
+    - print_baseline_gs_results: Displays the results of the baseline GridSearch.
 """
 
 # ---------------------------------------------------------
@@ -271,26 +272,28 @@ def get_recommendations(
 
 
 # Function to run baseline gridsearch for multiple algorithms with specified parameter grids
-def baseline_gs(
+def baseline_gridsearch(
     data: pd.DataFrame,
     algos: dict,
     param_grids: dict,
-    measures: list = ["rmse"],
+    measures: list = None,
     cv: int = 5,
-):
+) -> tuple:
     """
     Run GridSearchCV for multiple algorithms with specified parameter grids for baseline investigation.
 
     Parameters:
     - data (Dataset): A Surprise library dataset containing user-item interactions.
-    - algos: Dictionary of algorithm instances and classes from the Surprise library.
-    - param_grids: Dictionary of parameter grids for each algorithm.
-    - measures: List of performance measures to evaluate (default is ["rmse"]).
-    - cv: Number of cross-validation folds (default is 5).
+    - algos (dict): Dictionary of algorithm instances and classes from the Surprise library.
+    - param_grids (dict): Dictionary of parameter grids for each algorithm.
+    - measures (list, optional): List of performance measures to evaluate (default is ["rmse"]).
+    - cv (int, optional): Number of cross-validation folds (default is 5).
 
     Returns:
-    - tuple: A tuple containing the name of the best algorithm and its best parameters based on RMSE.
+    - tuple[str, dict, dict]: A tuple containing the best model name, its parameters, and a dictionary of all models.
     """
+    if measures is None:
+        measures = ["rmse"]
 
     # Initialize variables to track the best model
     best_rmse = float("inf")  # Initialize the best RMSE to a large value
@@ -316,20 +319,33 @@ def baseline_gs(
             best_model_name = name
             best_model_params = model_gs.best_params["rmse"]
 
-    for name in algos.keys():
+    print_baseline_gs_results(best_model_name=best_model_name, models=models)
+
+    return best_model_name, best_model_params
+
+
+def print_baseline_gs_results(best_model_name: str, models: dict) -> None:
+    """
+    Print the results of the baseline GridSearch.
+
+    Parameters:
+    - best_model_name (str): Name of the best performing model.
+    - models (dict): Dictionary containing all the GridSearchCV models.
+    """
+    display(Markdown("<br>**Baseline Gridsearch Results**"))
+
+    for name, model in models.items():
         # Display results for the current algorithm
-        display(Markdown(f"**{name}:**"))
-        print(f'RMSE: {round(models[name].best_score["rmse"], 3)}')
-        print(f'Parameters: {models[name].best_params["rmse"]}')
+        print(f"\nAlgorithm: {name}")
+        print(f'RMSE: {round(model.best_score["rmse"], 3)}')
+        print(f'Parameters: {model.best_params["rmse"]}')
 
     # Display the best baseline model selection
-    width = 100
+    width = 104
     formatted_message = f" BASELINE MODEL SELECTION: {best_model_name} ".center(
         width, "-"
     )
-    display(Markdown(f"**{formatted_message}**"))
-
-    return best_model_name, best_model_params
+    display(Markdown(f"<br>**{formatted_message}**"))
 
 
 # ---------------------------------------------------------
