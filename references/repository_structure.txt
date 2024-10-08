@@ -8,6 +8,8 @@
 │   ├── processed      <- The final, processed data sets for modeling.
 │   └── raw            <- The original, immutable data.
 │
+├── models             <- The final, trained and tuned recommendation model.
+│
 ├── notebooks          <- Jupyter notebooks for data exploration and analysis.
 │
 ├── references         <- Documentation, data dictionaries, and manuals.
