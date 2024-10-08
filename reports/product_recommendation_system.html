@@ -7575,15 +7575,15 @@ This model combines multiple recommendation techniques, such as collaborative fi
 <h3 id="Performance-Metrics">Performance Metrics<a class="anchor-link" href="#Performance-Metrics">¶</a></h3><p>The following key performance metrics will be used to evaluate and guide the comparison and tuning of different recommendation approaches, ensuring the final model provides accurate, diverse, and relevant suggestions to users.</p>
 <p><strong>Predictive Metrics</strong></p>
 <ul>
-<li><strong>RMSE (Root Mean Squared Error)</strong>: Measures the difference between predicted and actual ratings, indicating how accurately the model estimates user preferences. Lower RMSE values signify better predictive performance.</li>
+<li><strong>Root Mean Squared Error (RMSE)</strong>: Measures the difference between predicted and actual ratings, indicating how accurately the model estimates user preferences. Lower RMSE values signify better predictive performance.</li>
 <li><strong>Precision@K</strong>: The fraction of recommended items that are relevant within the top K predictions. The value of K represents the number of recommendations provided to the user and can be adjusted based on specific needs. Higher precision indicates that the model is effectively recommending items users are likely to engage with.</li>
 <li><strong>Recall@K</strong>: The fraction of relevant items that are recommended to the user within the top K predictions. Higher recall reflects the model's ability to capture a wider range of items users may find relevant.</li>
 <li><strong>F1 Score@K</strong>: The harmonic mean of Precision@K and Recall@K. This metric is useful when both precision and recall are important, as it provides a balanced measure that considers both aspects.</li>
 </ul>
 <p><strong>Ranking Metrics</strong></p>
 <ul>
-<li><strong>MRR (Mean Reciprocal Rank)</strong>: Measures the ranking quality by averaging the reciprocal rank of the first relevant item in the recommended list. Higher MRR values suggest that relevant items are ranked earlier, enhancing user experience.</li>
-<li><strong>MAP (Mean Average Precision)</strong>: Evaluates the average precision across all users, indicating how consistently the model ranks relevant items in its recommendations.</li>
+<li><strong>Mean Reciprocal Rank (MRR)</strong>: Measures the ranking quality by averaging the reciprocal rank of the first relevant item in the recommended list. Higher MRR values suggest that relevant items are ranked earlier, enhancing user experience.</li>
+<li><strong>Mean Average Precision (MAP)</strong>: Evaluates the average precision across all users, indicating how consistently the model ranks relevant items in its recommendations.</li>
 <li><strong>Hit Rate@K</strong>: The proportion of cases where at least one relevant item is present in the top-K recommendations. A higher hit rate demonstrates the model's reliability in including relevant items.</li>
 </ul>
 </div>
@@ -15292,7 +15292,7 @@ user: A2AY4YUOX2N1BQ item: B00BLZDKX2 r_ui = None   est = 4.49   {'actual_k': 0,
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h2 id="Model-4:-Model-Based-Collaborative-Filtering-Recommendation-System">Model 4: Model-Based Collaborative Filtering Recommendation System<a class="anchor-link" href="#Model-4:-Model-Based-Collaborative-Filtering-Recommendation-System">¶</a></h2>
+<h2 id="Model-4:-Matrix-Factorization-Based-Collaborative-Filtering-Recommendation-System">Model 4: Matrix Factorization-Based Collaborative Filtering Recommendation System<a class="anchor-link" href="#Model-4:-Matrix-Factorization-Based-Collaborative-Filtering-Recommendation-System">¶</a></h2>
 </div>
 </div>
 </div>
