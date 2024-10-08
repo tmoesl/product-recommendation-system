@@ -153,7 +153,7 @@ conda activate product-recommendation-system-env
 
 Using `venv`:
 ```bash
-python3.11.6 -m venv product-recommendation-system-env
+python3.12.3 -m venv product-recommendation-system-env
 source product-recommendation-system-env/bin/activate  # On Windows: .\product-recommendation-system-env\Scripts\activate
 pip install -r requirements.txt
 ```
