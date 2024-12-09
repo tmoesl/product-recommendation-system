@@ -10,8 +10,8 @@ In the competitive e-commerce industry, enhancing customer satisfaction and driv
 
 **Key Outcomes**
 - **Best Model**: The hybrid model provided the most balanced performance, with RMSE at 0.879, MRR at 0.819, MAP at 0.763, and Precision@10 at 0.522, offering the best trade-off between accuracy, diversity, and relevance.
-- **Key Insights**: Data sparsity (78,798 interactions out of 10 million possibilities) and positive rating bias (82% of ratings ≥ 4) skew recommendations toward popular items, limiting diversity.
-- **Cold Start Mitigation**: The hybrid model effectively addressed the cold start issue through a rank-based approach, providing recommendations for new users and products.
+- **Key Insights**: Data sparsity (78,798 interactions out of 10 million possibilities) and positive rating bias (82% of ratings ≥ 4) skew recommendations toward popular items, limiting diversity. These challenges restrict diversity, favor popular items, and hinder the system’s ability to provide personalized suggestions for less common preferences.
+- **Cold Start Mitigation**: The Hybrid Model effectively tackled the cold start challenge by leveraging a rank-based approach, enabling personalized recommendations for new users and products despite sparse interaction data.
 
 **Business Impact**
 - **Enhanced Engagement**: Personalized recommendations significantly improve customer satisfaction and retention.
@@ -20,9 +20,9 @@ In the competitive e-commerce industry, enhancing customer satisfaction and driv
 
 **Actionable Recommendations**
 - **Integrate Metadata**: Enhance the system with content-based filtering using product descriptions, categories, and brands to address data sparsity and cold start challenges.
-- **Expand Data Sources**: Leverage implicit feedback like clicks and cart additions to improve model accuracy and diversity.
-- **Optimize Diversity**: Use weighted sampling and novelty metrics to promote lesser-known products and cater to underrepresented users.
-- **Implement A/B Testing**: Continuously refine strategies using CTR, AOV, and CLV as key performance indicators.
+- **Expand Data Sources**: Leverage implicit feedback like clicks and cart additions to reduce reliance on popular items, thereby enhancing model accuracy and recommendation diversity.
+- **Optimize Diversity**: Use weighted sampling, coverage and novelty metrics to promote lesser-known products and cater to underrepresented users.
+- **Implement A/B Testing**: Continuously refine strategies using CTR, AOV, and CLV as key indicators.
 - **Personalize Product Promotions**: Use targeted marketing campaigns to promote a mix of top-selling and niche products, balancing popularity and diversity to drive customer engagement and satisfaction.
 
 ## Table of Contents
