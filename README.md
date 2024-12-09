@@ -4,6 +4,27 @@
 
 ![Status](https://img.shields.io/badge/-Completed-34A853?style=flat&label=Project&labelColor=23555555)
 
+## Executive Summary
+
+In the competitive e-commerce industry, enhancing customer satisfaction and driving sales through personalized recommendations are critical for success. This project addresses the challenges of data sparsity, positive rating bias, and the cold start problem by developing a robust recommendation system using Amazon’s electronic product reviews dataset.
+
+**Key Outcomes**
+- **Best Model**: The hybrid model provided the most balanced performance, with RMSE at 0.879, MRR at 0.819, MAP at 0.763, and Precision@10 at 0.522, offering the best trade-off between accuracy, diversity, and relevance.
+- **Key Insights**: Data sparsity (78,798 interactions out of 10 million possibilities) and positive rating bias (82% of ratings ≥ 4) skew recommendations toward popular items, limiting diversity.
+- **Cold Start Mitigation**: The hybrid model effectively addressed the cold start issue through a rank-based approach, providing recommendations for new users and products.
+
+**Business Impact**
+- **Enhanced Engagement**: Personalized recommendations significantly improve customer satisfaction and retention.
+- **Increased Sales**: Accurate and relevant suggestions contribute to higher conversion rates and average order values.
+- **Strategic Efficiency**: Optimized recommendation strategies streamline resource allocation and maximize business outcomes.
+
+**Actionable Recommendations**
+- **Integrate Metadata**: Enhance the system with content-based filtering using product descriptions, categories, and brands to address data sparsity and cold start challenges.
+- **Expand Data Sources**: Leverage implicit feedback like clicks and cart additions to improve model accuracy and diversity.
+- **Optimize Diversity**: Use weighted sampling and novelty metrics to promote lesser-known products and cater to underrepresented users.
+- **Implement A/B Testing**: Continuously refine strategies using CTR, AOV, and CLV as key performance indicators.
+- **Personalize Product Promotions**: Use targeted marketing campaigns to promote a mix of top-selling and niche products, balancing popularity and diversity to drive customer engagement and satisfaction.
+
 ## Table of Contents
 
 - [Introduction](#introduction)
@@ -49,13 +70,14 @@ The objective is to build a recommendation system to suggest products to Amazon 
 ## Data Insights
 This project analyzed and compared multiple recommendation models using the Amazon product reviews dataset focused on electronic products. The evaluation revealed that data sparsity, overfitting, and the dominance of popular items significantly impacted the models' performance.
 
-- **Data Sparsity**: The dataset contains only **78,798 recorded interactions** out of a possible **10 million** user-product combinations, leading to a highly sparse matrix. This limits the ability to capture diverse preferences and often results in less personalized recommendations.
-- **Positive Rating Bias**: **Over 82%** of ratings are **4 or higher**, creating a skew towards positive feedback that complicates model generalization and reduces the system’s ability to discern finer differences in user preferences.
-- **Right-Skewed Interactions**: The majority of users have between **10 to 50 interactions**, and most products are rated by only **1 to 10 users**. However, **a small subset of users and products dominate the interactions**, introducing potential bias in model training and skewing recommendations toward these frequent users and popular products.
-- **Impact on Metrics**: Data sparsity and positive rating bias cause models to favor frequently and highly rated items, inflating metrics like **Precision@K**, **MRR**, **MAP**, and **Hit Rate@K**. This results in overfitting and lowers **Recall@K** by missing less common but relevant items.
+- **Data Sparsity**: The dataset contains only 78,798 recorded interactions out of a possible 10 million user-product combinations, leading to a highly sparse matrix. This limits the ability to capture diverse preferences and often results in less personalized recommendations.
+- **Positive Rating Bias**: Over 82% of ratings are 4 or higher, creating a skew towards positive feedback that complicates model generalization and reduces the system’s ability to discern finer differences in user preferences.
+- **Right-Skewed Interactions**: The majority of users have between 10 to 50 interactions, and most products are rated by only 1 to 10 users. However, a small subset of users and products dominate the interactions, introducing potential bias in model training and skewing recommendations toward these frequent users and popular products.
+- **Impact on Metrics**: Data sparsity and positive rating bias cause models to favor frequently and highly rated items, inflating metrics like Precision@K, MRR, MAP, and Hit Rate@K. This results in overfitting and lowers Recall@K by missing less common but relevant items.
 - **Cold Start Problem**: Both new users and newly launched or rarely rated products struggle to gain visibility due to models' reliance on past interactions, exacerbating the cold start problem for these items.
 
 ## Models’ Performance
+
 The following models were evaluated to determine the best approach for product recommendations:
 
 1. **Rank-Based Recommendation System**: 
@@ -80,6 +102,14 @@ The following models were evaluated to determine the best approach for product r
 
 ![Model Performance](reports/figures/model_performance_comparison.png)
 
+| Model                | MRR   | MAP   | Hit Rate@10 | RMSE  | Precision@10 | Recall@10 | F1 Score@10 |
+|----------------------|-------|-------|-------------|-------|--------------|-----------|-------------|
+| Rank Model           | 0.842 | 0.791 | 0.943       | 0.899 | 0.565        | 0.260     | 0.356       |
+| User-User CF Model   | 0.813 | 0.757 | 0.943       | 0.888 | 0.496        | 0.336     | 0.401       |
+| Item-Item CF Model   | 0.813 | 0.758 | 0.943       | 0.888 | 0.496        | 0.337     | 0.401       |
+| SVD Model            | 0.811 | 0.756 | 0.943       | 0.883 | 0.508        | 0.391     | 0.442       |
+| Hybrid Model         | 0.819 | 0.763 | 0.943       | 0.879 | 0.522        | 0.375     | 0.436       |
+
 ### Key Takeaways
 - ★ **Dominance of Popular Items**: Models tended to favor frequently rated products due to data sparsity, leading to inflated ranking metrics like MRR and MAP.
 - ⚠️ **Challenges**: Overfitting and data sparsity remain major challenges, as models struggle to capture diverse user preferences and often focus on popular items.
@@ -90,17 +120,17 @@ Enhancing the recommendation system is expected to boost customer engagement, co
 
 **Diversifying Recommendation Strategies**
 
-- **Content and Metadata Integration**: Implement content-based filtering by analyzing product features and metadata (e.g., descriptions, brands, categories) to recommend items that align with user interests. This addresses both the **cold start problem** and **data sparsity**.
+- **Content and Metadata Integration**: Implement content-based filtering by analyzing product features and metadata (e.g., descriptions, brands, categories) to recommend items that align with user interests. This addresses both the cold start problem and data sparsity.
 - **Address Data Sparsity**: Use data augmentation (e.g., synthetic interactions, active learning) and implicit feedback (e.g., clicks, add-to-cart) to enrich the dataset and reduce reliance on popular items, promoting more diverse, accurate recommendations.
 - **Continuous Model Tuning**: Regularly fine-tune model parameters to adapt to changing data patterns, improving robustness and recommendation quality.
-- **Metric Reevaluation**: Introduce **coverage** and **novelty** metrics to evaluate how well the model generates diverse recommendations, especially in sparse datasets. Use **weighted sampling** during training to prioritize underrepresented items and users, ensuring a more balanced and inclusive model.
+- **Metric Reevaluation**: Introduce coverage and novelty metrics to evaluate how well the model generates diverse recommendations, especially in sparse datasets. Use weighted sampling during training to prioritize underrepresented items and users, ensuring a more balanced and inclusive model.
 
 **Strategic Business Actions**
 
-- **A/B Testing**: Test different recommendation strategies (e.g., personalized vs. trending) and use key metrics—**Click-Through Rate (CTR)**, **Conversion Rates**, **Average Order Value (AOV)**, and **Customer Lifetime Value (CLV)**—to optimize performance.
-- **Personalize Marketing Campaigns**: Tailor marketing efforts (e.g., email campaigns) based on user behavior. Monitor **CTR** and **Conversion Rates** to refine strategies.
-- **Target Low-Engagement Segments**: Identify and re-engage less active users with tailored recommendations to reduce **Churn Rate** and enhance **CLV**.
-- **Diversify Product Promotion**: Promote lesser-known products alongside top sellers using a **novelty factor**. Track **sales growth** and **AOV** to assess the impact on customer engagement and satisfaction.
+- **A/B Testing**: Test different recommendation strategies (e.g., personalized vs. trending) and use key metrics—Click-Through Rate (CTR), Conversion Rates, Average Order Value (AOV), and Customer Lifetime Value (CLV)—to optimize performance.
+- **Personalize Marketing Campaigns**: Tailor marketing efforts (e.g., email campaigns) based on user behavior. Monitor CTR and Conversion Rates to refine strategies.
+- **Target Low-Engagement Segments**: Identify and re-engage less active users with tailored recommendations to reduce Churn Rate and enhance CLV.
+- **Diversify Product Promotion**: Promote lesser-known products alongside top sellers using a novelty factor. Track sales growth and AOV to assess the impact on customer engagement and satisfaction.
 
 ## Repository Structure
 ```
