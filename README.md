@@ -9,14 +9,14 @@
 In the competitive e-commerce industry, enhancing customer satisfaction and driving sales through personalized recommendations are critical for success. This project addresses the challenges of data sparsity, positive rating bias, and the cold start problem by developing a robust recommendation system using Amazon’s electronic product reviews dataset.
 
 **Key Outcomes**
-- **Best Model**: The hybrid model provided the most balanced performance, with RMSE at 0.879, MRR at 0.819, MAP at 0.763, and Precision@10 at 0.522, offering the best trade-off between accuracy, diversity, and relevance.
+- **Best Model**: The hybrid model provided the most balanced performance, with RMSE at 0.879 and Precision@10 at 0.522, offering the best trade-off between accuracy, diversity, and relevance.
 - **Key Insights**: Data sparsity (78,798 interactions out of 10 million possibilities) and positive rating bias (82% of ratings ≥ 4) skew recommendations toward popular items, limiting diversity. These challenges restrict diversity, favor popular items, and hinder the system’s ability to provide personalized suggestions for less common preferences.
 - **Cold Start Mitigation**: The Hybrid Model effectively tackled the cold start challenge by leveraging a rank-based approach, enabling personalized recommendations for new users and products despite sparse interaction data.
 
 **Business Impact**
-- **Enhanced Engagement**: Personalized recommendations significantly improve customer satisfaction and retention.
-- **Increased Sales**: Accurate and relevant suggestions contribute to higher conversion rates and average order values.
-- **Strategic Efficiency**: Optimized recommendation strategies streamline resource allocation and maximize business outcomes.
+- **Enhanced Engagement**: Personalized recommendations boost customer satisfaction and retention.
+- **Increased Sales**: Relevant suggestions drive higher conversion rates and average order values.
+- **Optimized Efficiency**: Streamlined strategies improve resource allocation and business outcomes.
 
 **Actionable Recommendations**
 - **Integrate Metadata**: Enhance the system with content-based filtering using product descriptions, categories, and brands to address data sparsity and cold start challenges.
