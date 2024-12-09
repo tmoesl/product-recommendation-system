@@ -105,13 +105,13 @@ The following models were evaluated to determine the best approach for product r
 
 ![Model Performance](reports/figures/model_performance_comparison.png)
 
-| Model                | MRR   | MAP   | Hit Rate@K | RMSE  | Precision@K | Recall@K | F1 Score@K |
-|----------------------|-------|-------|------------|-------|-------------|----------|------------|
-| Rank Model           | 0.842 | 0.791 | 0.943      | 0.899 | 0.565       | 0.260    | 0.356      |
-| User-User CF Model   | 0.813 | 0.757 | 0.943      | 0.888 | 0.496       | 0.336    | 0.401      |
-| Item-Item CF Model   | 0.813 | 0.758 | 0.943      | 0.888 | 0.496       | 0.337    | 0.401      |
-| SVD Model            | 0.811 | 0.756 | 0.943      | 0.883 | 0.508       | 0.391    | 0.442      |
-| Hybrid Model         | 0.819 | 0.763 | 0.943      | 0.879 | 0.522       | 0.375    | 0.436      |
+| Model                | MRR   | MAP   | Hit Rate@10 | RMSE  | Precision@10 | Recall@10 | F1 Score@10 |
+|----------------------|-------|-------|-------------|-------|--------------|-----------|-------------|
+| Rank Model           | 0.842 | 0.791 | 0.943       | 0.899 | 0.565        | 0.260     | 0.356       |
+| User-User CF Model   | 0.813 | 0.757 | 0.943       | 0.888 | 0.496        | 0.336     | 0.401       |
+| Item-Item CF Model   | 0.813 | 0.758 | 0.943       | 0.888 | 0.496        | 0.337     | 0.401       |
+| SVD Model            | 0.811 | 0.756 | 0.943       | 0.883 | 0.508        | 0.391     | 0.442       |
+| Hybrid Model         | 0.819 | 0.763 | 0.943       | 0.879 | 0.522        | 0.375     | 0.436       |
 
 ### Key Takeaways
 - ★ **Dominance of Popular Items**: Models tended to favor frequently rated products due to data sparsity, leading to inflated ranking metrics like MRR and MAP.
