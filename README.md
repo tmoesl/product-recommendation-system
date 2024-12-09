@@ -30,7 +30,7 @@ In the competitive e-commerce industry, enhancing customer satisfaction and driv
 - [Introduction](#introduction)
 - [Objective](#objective)
 - [Key Business Metrics](#key-business-metrics)
-- [Exploratory Data Analysis and Visualization](#exploratory-data-analysis-and-visualization)
+- [Exploratory Data Analysis](#exploratory-data-analysis)
 - [Data Insights](#data-insights)
 - [Models’ Performance](#models-performance)
 - [Business Recommendations](#business-recommendations)
@@ -44,23 +44,26 @@ In the competitive e-commerce landscape, personalized product recommendations ar
 ## Objective
 The objective is to build a recommendation system to suggest products to Amazon customers based on their previous ratings. By utilizing a labeled dataset of Amazon product reviews, the project aims to extract meaningful insights and develop models that enhance product recommendations for online consumers. Several approaches are explored, including:
 
-1. **Knowledge/Rank-Based Recommendation System**: Recommends popular items to all users based on predefined criteria, aiding new users without personalization.
-2. **User-User Collaborative Filtering**: Suggests products liked by users with similar preferences by focusing on user-to-user similarities.
-3. **Item-Item Collaborative Filtering**: Recommends items similar to those a user has interacted with by analyzing item-to-item similarities.
-4. **Matrix Factorization-Based Collaborative Filtering**: Uses matrix factorization to uncover latent factors in user-item interactions for personalized recommendations.
-5. **Hybrid Recommendation System**: Combines multiple recommendation techniques to enhance accuracy and relevance in a hybrid system.
+- **Knowledge/Rank-Based Recommendation System**: Recommends popular items to all users based on predefined criteria, aiding new users without personalization.
+- **User-User Collaborative Filtering**: Suggests products liked by users with similar preferences by focusing on user-to-user similarities.
+- **Item-Item Collaborative Filtering**: Recommends items similar to those a user has interacted with by analyzing item-to-item similarities.
+- **Matrix Factorization-Based Collaborative Filtering**: Uses matrix factorization to uncover latent factors in user-item interactions for personalized recommendations.
+- **Hybrid Recommendation System**: Combines multiple recommendation techniques to enhance accuracy and relevance in a hybrid system.
 
 ## Key Business Metrics
 
-1. **Root Mean Squared Error (RMSE)**: Measures the accuracy of the model's rating predictions. Lower RMSE values indicate better performance.
-2. **Precision@K**: The fraction of relevant items within the top K recommendations, indicating the model's effectiveness in recommending engaging products.
-3. **Recall@K**: The proportion of all relevant items included in the top K recommendations, reflecting the model's ability to capture diverse user preferences.
-4. **F1 Score@K**: The harmonic mean of Precision@K and Recall@K, providing a balanced measure of the model's predictive performance.
-5. **Mean Reciprocal Rank (MRR)**: Measures the ranking quality by averaging the reciprocal rank of the first relevant item in the recommended list.
-6. **Mean Average Precision (MAP)**: Assesses the average precision across all users, indicating how well the model ranks relevant items.
-7. **Hit Rate@K**: The proportion of cases where at least one relevant item appears in the top K recommendations.
+**Predictive Metrics**
+- **Root Mean Squared Error (RMSE)**: Measures the accuracy of the model's rating predictions. Lower RMSE values indicate better performance.
+- **Precision@K**: The fraction of relevant items within the top K recommendations, indicating the model's effectiveness in recommending engaging products.
+- **Recall@K**: The proportion of all relevant items included in the top K recommendations, reflecting the model's ability to capture diverse user preferences.
+- **F1 Score@K**: The harmonic mean of Precision@K and Recall@K, providing a balanced measure of the model's predictive performance.
 
-## Exploratory Data Analysis and Visualization
+**Ranking Metrics**
+- **Mean Reciprocal Rank (MRR)**: Measures the ranking quality by averaging the reciprocal rank of the first relevant item in the recommended list.
+- **Mean Average Precision (MAP)**: Assesses the average precision across all users, indicating how well the model ranks relevant items.
+- **Hit Rate@K**: The proportion of cases where at least one relevant item appears in the top K recommendations.
+
+## Exploratory Data Analysis
 
 1. **Data Cleaning and Preprocessing**: Addressed missing values and ensured data integrity for accurate model building.
 2. **Descriptive Statistics**: Summarized data to understand user behavior, product popularity, and rating distributions.
@@ -118,19 +121,19 @@ The following models were evaluated to determine the best approach for product r
 ## Business Recommendations
 Enhancing the recommendation system is expected to boost customer engagement, conversion rates, and retention, driving overall business growth. Monitoring key performance metrics is essential for assessing impact and guiding optimization.
 
-**Diversifying Recommendation Strategies**
+1. **Diversifying Recommendation Strategies**
 
-- **Content and Metadata Integration**: Implement content-based filtering by analyzing product features and metadata (e.g., descriptions, brands, categories) to recommend items that align with user interests. This addresses both the cold start problem and data sparsity.
-- **Address Data Sparsity**: Use data augmentation (e.g., synthetic interactions, active learning) and implicit feedback (e.g., clicks, add-to-cart) to enrich the dataset and reduce reliance on popular items, promoting more diverse, accurate recommendations.
-- **Continuous Model Tuning**: Regularly fine-tune model parameters to adapt to changing data patterns, improving robustness and recommendation quality.
-- **Metric Reevaluation**: Introduce coverage and novelty metrics to evaluate how well the model generates diverse recommendations, especially in sparse datasets. Use weighted sampling during training to prioritize underrepresented items and users, ensuring a more balanced and inclusive model.
+   - **Content and Metadata Integration**: Implement content-based filtering by analyzing product features and metadata (e.g., descriptions, brands, categories) to recommend items that align with user interests. This addresses both the cold start problem and data sparsity.
+   - **Address Data Sparsity**: Use data augmentation (e.g., synthetic interactions, active learning) and implicit feedback (e.g., clicks, add-to-cart) to enrich the dataset and reduce reliance on popular items, promoting more diverse, accurate recommendations.
+   - **Continuous Model Tuning**: Regularly fine-tune model parameters to adapt to changing data patterns, improving robustness and recommendation quality.
+   - **Metric Reevaluation**: Introduce coverage and novelty metrics to evaluate how well the model generates diverse recommendations, especially in sparse datasets. Use weighted sampling during training to prioritize underrepresented items and users, ensuring a more balanced and inclusive model.
 
-**Strategic Business Actions**
+2. **Strategic Business Actions**
 
-- **A/B Testing**: Test different recommendation strategies (e.g., personalized vs. trending) and use key metrics—Click-Through Rate (CTR), Conversion Rates, Average Order Value (AOV), and Customer Lifetime Value (CLV)—to optimize performance.
-- **Personalize Marketing Campaigns**: Tailor marketing efforts (e.g., email campaigns) based on user behavior. Monitor CTR and Conversion Rates to refine strategies.
-- **Target Low-Engagement Segments**: Identify and re-engage less active users with tailored recommendations to reduce Churn Rate and enhance CLV.
-- **Diversify Product Promotion**: Promote lesser-known products alongside top sellers using a novelty factor. Track sales growth and AOV to assess the impact on customer engagement and satisfaction.
+   - **A/B Testing**: Test different recommendation strategies (e.g., personalized vs. trending) and use key metrics—Click-Through Rate (CTR), Conversion Rates, Average Order Value (AOV), and Customer Lifetime Value (CLV)—to optimize performance.
+   - **Personalize Marketing Campaigns**: Tailor marketing efforts (e.g., email campaigns) based on user behavior. Monitor CTR and Conversion Rates to refine strategies.
+   - **Target Low-Engagement Segments**: Identify and re-engage less active users with tailored recommendations to reduce Churn Rate and enhance CLV.
+   - **Diversify Product Promotion**: Promote lesser-known products alongside top sellers using a novelty factor. Track sales growth and AOV to assess the impact on customer engagement and satisfaction.
 
 ## Repository Structure
 ```
