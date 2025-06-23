@@ -3,7 +3,8 @@
 # Product Recommendation System For Amazon
 
 ![Status](https://img.shields.io/badge/-Completed-34A853?style=flat&label=Project&labelColor=23555555)
-
+![Languages](https://img.shields.io/github/languages/count/tmoesl/product-recommendation-system?label=Languages)
+![Top Language](https://img.shields.io/github/languages/top/tmoesl/product-recommendation-system?color=white)
 ## Executive Summary
 
 In the competitive e-commerce industry, enhancing customer satisfaction and driving sales through personalized recommendations are critical for success. This project addresses the challenges of data sparsity, positive rating bias, and the cold start problem by developing a robust recommendation system using Amazon’s electronic product reviews dataset.
